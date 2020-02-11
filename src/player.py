@@ -2,8 +2,9 @@
 # currently.
 
 class Player:
-    def __init__(self, room):
-        """constructs a player with starting location"""
+    def __init__(self, name, room):
+        """constructs a player with name and starting location"""
+        self.name = name
         self.room = room
     def move(self, cmd):
         """Moves location to a connected room"""

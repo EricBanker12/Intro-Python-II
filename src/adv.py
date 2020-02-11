@@ -53,11 +53,14 @@ room['treasure'].s_to = room['narrow']
 
 def main():
     """Adventure game loop"""
-    player = Player(room['outside'])
+    name = input('\nWhat is your name?\n: ')
+    player = Player(name, room['outside'])
 
     while True:
-        print(f'\n{player.room.name}\n{player.room.description}\n')
-        cmd = input('Enter "n" for North, "e" for East, "s" for South, "w" for West, and "q" for Quit.\n: ')
+        name_location_spacing = ' ' * (70 - len(player.name) - len(player.room.name)) + 'Location: '
+        print(f'\n{player.name}{name_location_spacing}{player.room.name}')
+        print(f'{player.room.description}')
+        cmd = input('\nEnter "n" for North, "e" for East, "s" for South, "w" for West, and "q" for Quit.\n: ')
         if cmd == "q":
             exit()
         else:
