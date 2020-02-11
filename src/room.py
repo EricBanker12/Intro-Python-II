@@ -6,6 +6,7 @@ class Room:
         """Constructs a room with name and description"""
         self.name = name
         self.description = description
+        self.items = []
         self.connections = {}
     def __getter__(cmd):
         """factory for property's fget"""

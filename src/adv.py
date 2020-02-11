@@ -1,11 +1,12 @@
 from room import Room
+from item import Item
 from player import Player
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mouth beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -55,15 +56,37 @@ def main():
     """Adventure game loop"""
     name = input('\nWhat is your name?\n: ')
     player = Player(name, room['outside'])
+    
+    def help():
+        commands = [
+            '"h" for Help',
+            '"q" for Quit',
+            '"n" for North',
+            '"e" for East', 
+            '"s" for South',
+            '"w" for West',
+        ]
+        print('\nCommands:')
+        commands_str = ''
+        for i in range(len(commands)):
+            spacer = ' ' * (20 - len(commands[i]))
+            commands_str += f'{commands[i]}{spacer}'
+            if i and not (i + 1) % 4:
+                commands_str += '\n'
+        print(commands_str)
+
+    help()
 
     while True:
         name_location_spacing = ' ' * (70 - len(player.name) - len(player.room.name)) + 'Location: '
         print(f'\n{player.name}{name_location_spacing}{player.room.name}')
         print(f'{player.room.description}')
-        cmd = input('\nEnter "n" for North, "e" for East, "s" for South, "w" for West, and "q" for Quit.\n: ')
+        cmd = input('\nEnter a command... ("h" for Help)\n: ')
         if cmd == "q":
             exit()
+        if cmd == "h":
+            help()
         else:
-            player.move(cmd)
+            player.do(cmd)
 
 main()
