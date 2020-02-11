@@ -79,7 +79,8 @@ def main():
 
     while True:
         name_location_spacing = ' ' * (70 - len(player.name) - len(player.room.name)) + 'Location: '
-        print(f'\n{player.name}{name_location_spacing}{player.room.name}')
+        print('\n' + '=' * 80)
+        print(f'{player.name}{name_location_spacing}{player.room.name}')
         print(f'{player.room.description}')
         cmd = input('\nEnter a command... ("h" for Help)\n: ')
         if cmd == "q":
