@@ -23,6 +23,17 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
+# Declare all the items
+
+item = {
+    'sword': Item('sword', 'An abandoned, rusty, old sword.'),
+    'rope': Item('rope', 'A long rope. Useful for towing or climbing.'),
+}
+
+# Add items to rooms
+
+room['outside'].give(item['sword'])
+room['outside'].give(item['rope'])
 
 # Link rooms together
 
@@ -62,6 +73,7 @@ def cmd_help():
         '"s, south" for South',
         '"w, west" for West',
         '"t, take, get" "item" for Take Item',
+        '"d, drop" "item" for Drop Item',
     ]
     print('\n' + '=' * 80)
     print('Commands:')
@@ -75,7 +87,8 @@ def cmd_help():
 
 def main():
     """Adventure game loop"""
-    name = input('\nWhat is your name?\n: ')
+    print('\n' + '=' * 80)
+    name = input('Welcome!\nWhat is your name?\n: ')
     player = Player(name, room['outside'])
     cmd_help()
     while True:
@@ -83,6 +96,12 @@ def main():
         print('\n' + '=' * 80)
         print(f'{player.name}{name_location_spacing}{player.room.name}')
         print(f'{player.room.description}')
+        items = player.room.items
+        if items:
+            print(
+                '\nSearching around, you find:',
+                *[f'\n{item.name}: {item.description}' for item in items]
+            )
         cmd = input('\nEnter a command... ("h" for Help)\n: ')
         if cmd == 'q' or cmd == 'quit':
             exit()
