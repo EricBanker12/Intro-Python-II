@@ -19,6 +19,14 @@ class Room:
     def move(self, cmd):
         """Returns connection or raises an exception"""
         return self.connections[cmd]
+    def take(self, item_name):
+        """Removes an item by name and returns it"""
+        index = [item.name for item in self.items].index(item_name)
+        return self.items.pop(index)
+    def give(self, item):
+        """Adds an item"""
+        self.items.append(item)
+        self.items.sort(key=lambda item: item.name)
     n_to = property(__getter__('n'), __setter__('n'), doc='northern connection')
     e_to = property(__getter__('e'), __setter__('e'), doc='eastern connection')
     s_to = property(__getter__('s'), __setter__('s'), doc='southern connection')

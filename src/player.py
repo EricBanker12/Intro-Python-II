@@ -11,7 +11,11 @@ class Player:
     def do(self, cmd):
         """Try to do an action."""
         if re.compile('[nesw]|north|east|south|west').fullmatch(cmd):
+            # cmd matches "n", "e", "s", "w", "north", "east", "south", or "west"
             self.move(cmd)
+        elif re.compile('[t] \w+|take \w+|get \w+').fullmatch(cmd):
+            # cmd matches "t [item_name]", "take [item_name]", or "get [item_name]"
+            self.take(cmd)
         else:
             print('\n' + '=' * 80)
             print(f'Command "{cmd}" not recognized.\nEnter "h" for Help.')
@@ -22,3 +26,15 @@ class Player:
         except:
             print('\n' + '=' * 80)
             print('There is nothing in that direction.')
+    def take(self, cmd):
+        """Pick up an item from the current room"""
+        try:
+            item_name = cmd.split(' ')[1]
+            item = self.room.take(item_name)
+            print('\n' + '=' * 80)
+            item.on_take()
+            self.items.append(item)
+            self.items.sort(key=lambda item: item.name)
+        except:
+            print('\n' + '=' * 80)
+            print(f'The item "{item_name}" was not found.')

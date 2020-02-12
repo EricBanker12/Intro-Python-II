@@ -61,14 +61,15 @@ def cmd_help():
         '"e, east" for East',
         '"s, south" for South',
         '"w, west" for West',
+        '"t, take, get" "item" for Take Item',
     ]
     print('\n' + '=' * 80)
     print('Commands:')
     commands_str = ''
     for i in range(len(commands)):
-        if i and not i % 3:
+        if i and not i % 2:
             commands_str += '\n'
-        spacer = ' ' * (26 - len(commands[i]))
+        spacer = ' ' * (40 - len(commands[i]))
         commands_str += f'{commands[i]}{spacer}'
     print(commands_str)
 
