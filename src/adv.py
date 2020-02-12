@@ -74,6 +74,7 @@ def cmd_help():
         '"w, west" for West',
         '"t, take, get" "item" for Take Item',
         '"d, drop" "item" for Drop Item',
+        '"i, inventory" for Inventory',
     ]
     print('\n' + '=' * 80)
     print('Commands:')

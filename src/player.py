@@ -20,6 +20,9 @@ class Player:
         elif re.compile('d \w+|drop \w+').fullmatch(cmd):
             # cmd matches "d [item_name]" or "drop [item_name]"
             self.drop(cmd)
+        elif re.compile('i|inventory').fullmatch(cmd):
+            # cmd matches "i" or "inventory"
+            self.inventory()
         else:
             print(f'Command "{cmd}" not recognized.\nEnter "h" for Help.')
     def move(self, cmd):
@@ -49,3 +52,12 @@ class Player:
             self.room.give(item)
         except:
             print(f'The item "{item_name}" was not found.')
+    def inventory(self):
+        """Print inventory contents"""
+        if self.items:
+            print(
+                'In your inventory, you find:',
+                *[f'\n{item.name}: {item.description}' for item in self.items]
+            )
+        else:
+            print('Your inventory is empty.')
