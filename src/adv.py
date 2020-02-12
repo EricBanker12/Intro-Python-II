@@ -52,41 +52,41 @@ room['treasure'].s_to = room['narrow']
 #
 # If the user enters "q", quit the game.
 
+def cmd_help():
+    """Print a list of commands"""
+    commands = [
+        '"h, help" for Help',
+        '"q, quit" for Quit',
+        '"n, north" for North',
+        '"e, east" for East',
+        '"s, south" for South',
+        '"w, west" for West',
+    ]
+    print('\n' + '=' * 80)
+    print('Commands:')
+    commands_str = ''
+    for i in range(len(commands)):
+        if i and not i % 3:
+            commands_str += '\n'
+        spacer = ' ' * (26 - len(commands[i]))
+        commands_str += f'{commands[i]}{spacer}'
+    print(commands_str)
+
 def main():
     """Adventure game loop"""
     name = input('\nWhat is your name?\n: ')
     player = Player(name, room['outside'])
-    
-    def help():
-        commands = [
-            '"h" for Help',
-            '"q" for Quit',
-            '"n" for North',
-            '"e" for East', 
-            '"s" for South',
-            '"w" for West',
-        ]
-        print('\nCommands:')
-        commands_str = ''
-        for i in range(len(commands)):
-            spacer = ' ' * (20 - len(commands[i]))
-            commands_str += f'{commands[i]}{spacer}'
-            if i and not (i + 1) % 4:
-                commands_str += '\n'
-        print(commands_str)
-
-    help()
-
+    cmd_help()
     while True:
         name_location_spacing = ' ' * (70 - len(player.name) - len(player.room.name)) + 'Location: '
         print('\n' + '=' * 80)
         print(f'{player.name}{name_location_spacing}{player.room.name}')
         print(f'{player.room.description}')
         cmd = input('\nEnter a command... ("h" for Help)\n: ')
-        if cmd == "q":
+        if cmd == 'q' or cmd == 'quit':
             exit()
-        if cmd == "h":
-            help()
+        if cmd == 'h' or cmd == 'help':
+            cmd_help()
         else:
             player.do(cmd)
 

@@ -10,13 +10,15 @@ class Player:
         self.items = []
     def do(self, cmd):
         """Try to do an action."""
-        if re.compile('[nesw]').fullmatch(cmd):
+        if re.compile('[nesw]|north|east|south|west').fullmatch(cmd):
             self.move(cmd)
         else:
-            print(f'\nCommand "{cmd}" not recognized.\nEnter "h" for Help.')
+            print('\n' + '=' * 80)
+            print(f'Command "{cmd}" not recognized.\nEnter "h" for Help.')
     def move(self, cmd):
         """Move location to a connected room."""
         try:
-            self.room = self.room.move(cmd)
+            self.room = self.room.move(cmd[0])
         except:
-            print('\nThere is nothing in that direction.')
+            print('\n' + '=' * 80)
+            print('There is nothing in that direction.')
