@@ -2,6 +2,7 @@ from room import Room
 from item import Item
 from player import Player
 from event import GameEvent
+from utils import cmd_help, message_factory, rope_event_factory
 
 # Declare all the rooms
 
@@ -39,28 +40,11 @@ item = {
 
 # Add events to items
 
-def message_factory(msg):
-    """Returns a function that prints msg"""
-    def message():
-        print(msg)
-    return message
-
-def rope_event_factory(room, room_2):
-    """Returns a function that prints a message and updates a room"""
-    def callback():
-        print('You used the "rope". You can now climb down the chasm.')
-        room.description = """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance. A climbing rope is fastened securely."""
-        room.n_to = room_2
-        room_2.s_to = room
-    return callback
-
-item['rope'].set_event(GameEvent(
+item['rope'].event = GameEvent(
     room['overlook'],
     message_factory('\nMaybe you can use the rope.'),
     rope_event_factory(room['overlook'], room['chasm'])
-))
+)
 
 # Add items to rooms
 
@@ -97,30 +81,6 @@ room['chasm'].n_to = room['end']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-
-def cmd_help():
-    """Print a list of commands"""
-    commands = [
-        '"h, help" for Help',
-        '"q, quit" for Quit',
-        '"n, north" for North',
-        '"e, east" for East',
-        '"s, south" for South',
-        '"w, west" for West',
-        '"t, take, get" "item" for Take Item',
-        '"d, drop" "item" for Drop Item',
-        '"i, inventory" for Inventory',
-        '"u, use" "item" for Use Item'
-    ]
-    print('\n' + '=' * 80)
-    print('Commands:')
-    commands_str = ''
-    for i in range(len(commands)):
-        if i and not i % 2:
-            commands_str += '\n'
-        spacer = ' ' * (40 - len(commands[i]))
-        commands_str += f'{commands[i]}{spacer}'
-    print(commands_str)
 
 def main():
     """Adventure game loop"""

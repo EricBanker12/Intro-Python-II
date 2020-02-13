@@ -3,11 +3,16 @@
 import re
 
 class Player:
+    """
+    Class containing player name, current room, current items,
+    and methods to print and manipulate them.
+    """
     def __init__(self, name, room):
-        """Construct a player with name and starting location."""
+        """Construct a player with name and starting room."""
         self.name = name
         self.room = room
         self.items = []
+
     def status(self):
         """Print the current player status"""
         print('\n' + '=' * 80)
@@ -21,6 +26,7 @@ class Player:
                 '\nSearching around, you find:',
                 *[f'\n{item.name}: {item.description}' for item in self.room.items]
             )
+
     def do(self, cmd):
         """Try to do an action."""
         print('\n' + '=' * 80)
@@ -41,6 +47,7 @@ class Player:
             self.use(cmd)
         else:
             print(f'Command "{cmd}" not recognized.\nEnter "h" for Help.')
+
     def move(self, cmd):
         """Move location to a connected room."""
         try:
@@ -48,6 +55,7 @@ class Player:
             print(f'You have moved to {self.room.name}.')
         except:
             print('There is nothing in that direction.')
+
     def take(self, cmd):
         """Pick up an item from the current room"""
         try:
@@ -58,6 +66,7 @@ class Player:
             self.items.sort(key=lambda item: item.name)
         except:
             print(f'The item "{item_name}" was not found.')
+
     def drop(self, cmd):
         """Drop an item into the current room"""
         try:
@@ -68,6 +77,7 @@ class Player:
             self.room.give(item)
         except:
             print(f'The item "{item_name}" was not found.')
+
     def inventory(self):
         """Print inventory contents"""
         if self.items:
@@ -77,6 +87,7 @@ class Player:
             )
         else:
             print('Your inventory is empty.')
+
     def use(self, cmd):
         """Use an item in the current room"""
         try:
