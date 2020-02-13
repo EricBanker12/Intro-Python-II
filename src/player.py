@@ -61,3 +61,16 @@ class Player:
             )
         else:
             print('Your inventory is empty.')
+    def use(self, cmd):
+        """Use an item in the current room"""
+        try:
+            item_name = cmd.split(' ')[1]
+            index = [item.name for item in self.items].index(item_name)
+            item = self.items[index]
+            event = self.room.use(item)
+            print(event)
+            self.items.pop(index)
+        except ValueError:
+            print(f'The item "{item_name}" was not found.')
+        except KeyError:
+            print(f'The item "{item_name}" is not useful here.')

@@ -13,7 +13,12 @@ passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way down the cliff."""),
+
+    'chasm': Room("Great Chasm", """Surrounded by darkness with the cliff
+behind you, a northern, guiding light draws you in."""),
+
+    'end': Room("name", """description"""),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
@@ -28,12 +33,14 @@ earlier adventurers. The only exit is to the south."""),
 item = {
     'sword': Item('sword', 'An abandoned, rusty, old sword.'),
     'rope': Item('rope', 'A long rope. Useful for towing or climbing.'),
+    'bell': Item('bell', 'A small, metallic bell that jingles with every movement.'),
 }
 
 # Add items to rooms
 
 room['outside'].give(item['sword'])
-room['outside'].give(item['rope'])
+room['treasure'].give(item['rope'])
+room['treasure'].give(item['bell'])
 
 # Link rooms together
 
@@ -45,6 +52,8 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
+room['chasm'].s_to = room['overlook']
+room['chasm'].n_to = room['end']
 
 #
 # Main
@@ -75,6 +84,7 @@ def cmd_help():
         '"t, take, get" "item" for Take Item',
         '"d, drop" "item" for Drop Item',
         '"i, inventory" for Inventory',
+        '"u, use" "item" for Use Item'
     ]
     print('\n' + '=' * 80)
     print('Commands:')
