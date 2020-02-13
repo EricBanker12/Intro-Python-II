@@ -8,6 +8,19 @@ class Player:
         self.name = name
         self.room = room
         self.items = []
+    def status(self):
+        """Print the current player status"""
+        print('\n' + '=' * 80)
+        name_location_spacing = ' ' * (70 - len(self.name) - len(self.room.name)) + 'Location: '
+        print(f'{self.name}{name_location_spacing}{self.room.name}')
+        print(f'{self.room.description}')
+        for item in self.items:
+            item.inventory(self)
+        if self.room.items:
+            print(
+                '\nSearching around, you find:',
+                *[f'\n{item.name}: {item.description}' for item in self.room.items]
+            )
     def do(self, cmd):
         """Try to do an action."""
         print('\n' + '=' * 80)
@@ -23,6 +36,9 @@ class Player:
         elif re.compile('i|inventory').fullmatch(cmd):
             # cmd matches "i" or "inventory"
             self.inventory()
+        elif re.compile('u \w+|use \w+').fullmatch(cmd):
+            # cmd matches "u [item_name]" or "use [item_name]"
+            self.use(cmd)
         else:
             print(f'Command "{cmd}" not recognized.\nEnter "h" for Help.')
     def move(self, cmd):
@@ -67,10 +83,9 @@ class Player:
             item_name = cmd.split(' ')[1]
             index = [item.name for item in self.items].index(item_name)
             item = self.items[index]
-            event = self.room.use(item)
-            print(event)
+            item.use(self)
             self.items.pop(index)
         except ValueError:
             print(f'The item "{item_name}" was not found.')
-        except KeyError:
-            print(f'The item "{item_name}" is not useful here.')
+        except AttributeError:
+            print(f'The item "{item_name}" has no use here.')

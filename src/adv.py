@@ -1,6 +1,7 @@
 from room import Room
 from item import Item
 from player import Player
+from event import GameEvent
 
 # Declare all the rooms
 
@@ -13,12 +14,12 @@ passages run north and east."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way down the cliff."""),
+the distance, but there is no way down the chasm."""),
 
-    'chasm': Room("Great Chasm", """Surrounded by darkness with the cliff
+    'chasm': Room("Great Chasm", """Surrounded by darkness with the cliff looming
 behind you, a northern, guiding light draws you in."""),
 
-    'end': Room("name", """description"""),
+    'end': Room("The End", """This is the end. Enter "q" to quit."""),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
@@ -35,6 +36,31 @@ item = {
     'rope': Item('rope', 'A long rope. Useful for towing or climbing.'),
     'bell': Item('bell', 'A small, metallic bell that jingles with every movement.'),
 }
+
+# Add events to items
+
+def message_factory(msg):
+    """Returns a function that prints msg"""
+    def message():
+        print(msg)
+    return message
+
+def rope_event_factory(room, room_2):
+    """Returns a function that prints a message and updates a room"""
+    def callback():
+        print('You used the "rope". You can now climb down the chasm.')
+        room.description = """A steep cliff appears before you, falling
+into the darkness. Ahead to the north, a light flickers in
+the distance. A climbing rope is fastened securely."""
+        room.n_to = room_2
+        room_2.s_to = room
+    return callback
+
+item['rope'].set_event(GameEvent(
+    room['overlook'],
+    message_factory('\nMaybe you can use the rope.'),
+    rope_event_factory(room['overlook'], room['chasm'])
+))
 
 # Add items to rooms
 
@@ -103,16 +129,7 @@ def main():
     player = Player(name, room['outside'])
     cmd_help()
     while True:
-        name_location_spacing = ' ' * (70 - len(player.name) - len(player.room.name)) + 'Location: '
-        print('\n' + '=' * 80)
-        print(f'{player.name}{name_location_spacing}{player.room.name}')
-        print(f'{player.room.description}')
-        items = player.room.items
-        if items:
-            print(
-                '\nSearching around, you find:',
-                *[f'\n{item.name}: {item.description}' for item in items]
-            )
+        player.status()
         cmd = input('\nEnter a command... ("h" for Help)\n: ')
         if cmd == 'q' or cmd == 'quit':
             exit()

@@ -28,13 +28,6 @@ class Room:
         """Adds an item"""
         self.items.append(item)
         self.items.sort(key=lambda item: item.name)
-    def use(self, item):
-        """Calls a set event triggered by an item"""
-        callback = self.events[item.name]
-        return callback(self)
-    def event(self, item, callback)
-        """Sets an event on using an item, and callback which recieves room and returns a message to print"""
-        self.events[item.name] = callback
     n_to = property(__getter__('n'), __setter__('n'), doc='northern connection')
     e_to = property(__getter__('e'), __setter__('e'), doc='eastern connection')
     s_to = property(__getter__('s'), __setter__('s'), doc='southern connection')
