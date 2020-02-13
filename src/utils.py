@@ -35,9 +35,11 @@ def rope_event_factory(room, room_2):
     """
     def callback():
         print('You used the "rope". You can now climb down the chasm.')
-        room.description = """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance. A climbing rope is fastened securely."""
+        room.description = """\
+            A steep cliff appears before you, falling
+            into the darkness. Ahead to the north, a light flickers in
+            the distance. A climbing rope is fastened securely.
+            """
         room.n_to = room_2
         room_2.s_to = room
     return callback

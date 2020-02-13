@@ -1,6 +1,7 @@
 # Write a class to hold player information, e.g. what room they are in
 # currently.
 import re
+from textwrap import dedent, wrap
 
 class Player:
     """
@@ -18,7 +19,8 @@ class Player:
         print('\n' + '=' * 80)
         name_location_spacing = ' ' * (70 - len(self.name) - len(self.room.name)) + 'Location: '
         print(f'{self.name}{name_location_spacing}{self.room.name}')
-        print(f'{self.room.description}')
+        for line in wrap(dedent(self.room.description), 50):
+            print(line)
         for item in self.items:
             item.inventory(self)
         if self.room.items:
